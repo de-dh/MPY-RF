@@ -28,7 +28,7 @@ The main problem for receiving rf data with microcontrollers is reception of amb
 During idle periods the digital output (DO) pin of the receiver transitions randomly between 1 and 0.
 
 
-Peter Hinch's mpyremote (used to record signals of remote power plugs) overcomes this problem by manually starting to record data.
+Peter Hinch's [micropython_remote](https://github.com/peterhinch/micropython_remote)  (used to record signals of remote power plugs) overcomes this problem by manually starting to record data.
 The rf signal has to be present already when the user starts the recording procedure. 
 To record data, the state of the DO pin is retrieved by polling it in a loop.
 Therefore, the program doesn't rely on IRQs which can problematic.
@@ -62,6 +62,7 @@ To sum it up, the following considerations may improve reception:
 - Use the 3.3V supply of the mcu and not USB 5V supply
 - Use the antenna supplied with the module
 - Kepp the data connection between RX module and MCU short
+- After the program has started, add a short delay before the RX module is started
 
 Stuff that didn't work:
 - Polling the DO pin's state in a loop
