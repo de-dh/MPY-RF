@@ -7,6 +7,8 @@ I used it to receive data from an outdoor temperature sensor.
 During my work on this small project I could identify several factors which improve reception of rf data specifically with RX470C modules.
 Most importantly: Adding just one resistor to the module may eradicate noise almost completely.
 
+<img align="right" src="img/RX_front_back.jpg" width="250" height="auto" />
+
 ## The Problem: Noise
 The main problem for receiving rf data with microcontrollers is reception of ambient noise.
 During idle periods the digital output (DO) pin of the receiver transitions randomly between 1 and 0.
@@ -25,4 +27,4 @@ I managed to find a datasheet of the SYN470R IC which is most likely used on the
 The SYN470R IC offers analog noise reduction which can be activated by simply ading a several Megaohm resistor (6 - 10 MOhm) between two pins of the IC.
 Furthermore, a supply bypass capacitor should be added between the modules power supply pins.
 
-I added a 1 MOhm resistor to my module and tadaa - the noise in idle state was gone.
+I added a supply bypass capacitor and a 1 MOhm resistor to my module and tadaa - the noise in idle state was gone.
