@@ -5,7 +5,7 @@
 The RX470C-V01 module is a low cost (~2 €) 433 MHz receiver for use with microcontrollers (MCUs).
 I used it to [receive data from an outdoor temperature sensor](https://github.com/de-dh/TP65-receiver-mpy/).
 During my work on this small project I could identify several factors which improve reception of rf data specifically with RX470C modules.
-Most importantly: Adding just one resistor to the module may eradicate noise almost completely.
+Most importantly: **Adding just one resistor to the module may eradicate noise almost completely.**
 
 <img src="img/RX_front_back.jpg" width="250" height="auto" />
 
