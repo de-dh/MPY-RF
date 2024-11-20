@@ -35,39 +35,53 @@ Therefore, the program doesn't rely on IRQs which can problematic.
 The recorded data is then analyzed. Similar transmissions are identified and the frames are averaged.
 Unfortunately, this approach didn't work for my problem since my program has to wait for periodic transmissions and identify them.
 
-## Solution: Analog noise reduction + IRQs
+## Solutions
 
+### Using IRQs
 
 Although I understand the problems related to the use of IRQs, I found that IRQs result in a more precise timing in my case.
+
+Stuff that didn't work:
+- Polling the DO pin's state in a loop
+- Using machine.time_puls_us
+- Activating hardware interrupts (vs. software interrupts) made no difference
+
+
+### Activating analog noise reduction of the SYN470R IC
+
 I managed to find a datasheet of the SYN470R IC which is most likely used on the RX470C modules.
 The SYN470R IC offers analog noise reduction which can be activated by simply ading a several Megaohm resistor (6 - 10 MOhm) between two pins of the IC.
 Furthermore, a supply bypass capacitor should be added between the modules power supply pins.
 
 
-I added a supply bypass capacitor and a 1 MOhm resistor to my module and tadaa - the noise in idle state was gone.
+I added a decoupling capacitor and a 1 MOhm resistor to my module and tadaa - the noise in idle state was gone.
 The figure below shows where to add the resistor. 
 You may have to vary the values of the resistor until the desired noise reduction is achieved.
 
 
 <img src="img/RX470C_modified.png" width="500" height="auto" />
 
-
 Although the datasheet suggests resistors with 6 - 10 MOhm, a 1 MOhm resistor gave me perfect results.
 I tried higher values but this resulted in a complete loss of reception.
 Also, I connected the RX module to the mcu's 3.3V supply instead of the USB's 5V pin since the mcu's supply might be more stable.
 
+### Using a better Antenna
+
+The supplied spring antenna of the RX470C module isn't very good.
+Substituting it with a straight wire antenna of 17.3 cm length.
+I didn't test the effect of a straight wire antenna on the quality of the received data.
+However, it increases the range of the receiver significally.
+The spring antennas should be only used when space limitations require it.
+
+
+### Summary
 To sum it up, the following considerations may improve reception:
 - Activate analog noise suppression by adding a resistor
-- Use a supply bypass capacitor
+- Use a decoupling capacitor
 - Use the 3.3V supply of the mcu and not USB 5V supply
-- Use the antenna supplied with the module
+- Use a better Antenna
 - Kepp the data connection between RX module and MCU short
 - After the program has started, add a short delay before the RX module is started
-
-Stuff that didn't work:
-- Polling the DO pin's state in a loop
-- Using machine.time_puls_us
-- Activating hardware interrupts (vs. software interrupts) made no difference
 
 ## Links
 
